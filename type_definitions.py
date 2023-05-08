@@ -1,12 +1,15 @@
-from typing import List
 import enum
+from typing import List, Union
 
 # Types
 Board = List[List]
-Window = List[tuple[int, int]]
+
 Score = int
 
 
 class Player(enum.Enum):
     RED = 1
     BLUE = 2
+
+
+Window = List[Union[Player, None]]
