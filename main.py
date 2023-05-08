@@ -53,14 +53,87 @@ def evaluate_board(board: Board, player: Player):
 
 def is_game_over(board: Board) -> Union[Player, None]:
 
+#Horizontal Window Check
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if col + 3 < len(board[0]):
+                Window = [
+                    board[row][col + 0],
+                    board[row][col + 1],
+                    board[row][col + 2],
+                    board[row][col + 3]
+                ]
 
+                if Window.count(Player.RED) == 4:
+                    return Player.RED
+                elif Window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+                else:
+                    return None
+                
+#Vertical Window Check
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if row + 3 < len(board):
+                Window = [
+                    board[row + 0][col],
+                    board[row + 1][col],
+                    board[row + 2][col],
+                    board[row + 3][col]
+                ]
 
-    if Window.count(Player.RED) == 4:
-        return Player.RED
-    elif Window.count(Player.BLUE) == 4:
-        return Player.BLUE
-    else:
-        return None
+                if Window.count(Player.RED) == 4:
+                    return Player.RED
+                elif Window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+                else:
+                    return None
+                
+#Diagonal Window Check
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if row + 3 < len(board) and col + 3 < len(board[0]):
+                Window = [
+                    board[row + 0][col + 0],
+                    board[row + 1][col + 1],
+                    board[row + 2][col + 2],
+                    board[row + 3][col + 3]
+                ]
+
+                if Window.count(Player.RED) == 4:
+                    return Player.RED
+                elif Window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+                else:
+                    return None
+                
+#Diagonal Window Check
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if row + 3 < len(board) and col - 3 >= 0:
+                Window = [
+                    board[row + 0][col - 0],
+                    board[row + 1][col - 1],
+                    board[row + 2][col - 2],
+                    board[row + 3][col - 3]
+                ]
+
+                if Window.count(Player.RED) == 4:
+                    return Player.RED
+                elif Window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+                else:
+                    return None
+                
+#Check for Draw
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if board[row][col] == None:
+                return None
+            else:
+                return "Draw"
+
+            
     
 
 
