@@ -2,6 +2,13 @@ from typing import Union
 
 from type_definitions import Board, Player, Score, Window
 
+DEBUG = False
+
+
+def log(msg: str):
+    if DEBUG:
+        input(msg)
+
 
 def minimax(
         board: Board,
@@ -17,38 +24,58 @@ def minimax(
 def evaluate_board(board: Board, player: Player):
     value = 0
 
+    log(f"board rows: {len(board)}")
+    log(f"board cols: {len(board[0])}")
+
     for row in range(len(board)):
         for col in range(len(board[0])):
+            log(f"row: {row}, col: {col}")
+
+            # Horizontal
             if col + 3 < len(board[0]):
-                value += evaluate_window([
+                window = [
                     board[row][col + 0],
                     board[row][col + 1],
                     board[row][col + 2],
                     board[row][col + 3]
-                ], player)
+                ]
+                log(f"horizontal window: {window}")
+                value += evaluate_window(window, player)
+
+            # Vertical
             if row + 3 < len(board):
-                value += evaluate_window([
+                window = [
                     board[row + 0][col],
                     board[row + 1][col],
                     board[row + 2][col],
                     board[row + 3][col]
-                ], player)
+                ]
+                log(f"vertical window: {window}")
+                value += evaluate_window(window, player)
+
+            # Diagonal down-right
             if row + 3 < len(board) and col + 3 < len(board[0]):
-                value += evaluate_window([
+                window = [
                     board[row + 0][col + 0],
                     board[row + 1][col + 1],
                     board[row + 2][col + 2],
                     board[row + 3][col + 3]
-                ], player)
+                ]
+                log(f"diagonal down-right window: {window}")
+                value += evaluate_window(window, player)
+
+            # Diagonal down-left
             if row + 3 < len(board) and col - 3 >= 0:
-                value += evaluate_window([
+                window = [
                     board[row + 0][col - 0],
                     board[row + 1][col - 1],
                     board[row + 2][col - 2],
                     board[row + 3][col - 3]
-                ], player)
+                ]
+                log(f"diagonal down-left window: {window}")
+                value += evaluate_window(window, player)
 
-        return value
+    return value
 
 
 def is_game_over(board: Board) -> Union[Player, None]:
