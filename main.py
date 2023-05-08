@@ -1,10 +1,10 @@
 import math
-from random import random
+import random
 
 from type_definitions import Player, Board, Score, Window, COLUMN_COUNT, ROW_COUNT
 from typing import Union
 
-DEBUG = False
+DEBUG = True
 
 
 def log(msg: str):
@@ -39,116 +39,168 @@ def winning_move(board: Board, player: Player) -> bool:
                 return True
 
 
+# Returns the score and the move that got that score (i.e. column)
 def minimax(
         board: Board,
         depth: int,
         player: Player
 ):
+    turn = "RED" if player == Player.RED else "BLUE"
+    log(f"depth: {depth}, player: {turn}")
+
     places = []
     for col in range(COLUMN_COUNT):
-        if board[0][col] == None:
+        if not board[0][col]:
             places.append(col)
 
+    NL = "\n"
+    log(f"{turn}, board:\n{NL.join([str(row) for row in board])}\n")
+    log(f"{turn}, places: {places}")
+
     if winning_move(board, Player.RED):
+        log("RED won")
         return 1
     elif winning_move(board, Player.BLUE):
-        return 1
+        log("BLUE won")
+        return -1
     elif (len(places) == 0):
+        log("tie")
         return 0
+
     if depth == 0:
-        return evaluate_board(board, player)
+        log(f"{turn}, depth reached")
+        eval = evaluate_board(board, player)
+        log(f"{turn}, eval: {eval}")
+        return eval
 
     if player == Player.RED:
         value = -math.inf
-        column = random.choice(places)
+        log(f"{turn}, value: {value}")
+
         openRow = None
         for col in places:
-            for row in range(ROW_COUNT):
-                if board[row][col] == 0:
+            for row in range(ROW_COUNT - 1, -1, -1):
+                log(f"{turn}, row: {row}, col: {col}")
+                if not board[row][col]:
+                    log(f"{turn}, found empty spot")
                     openRow = row
+                    break
 
-            b_copy = board.copy()
-            board[openRow][col] = Player.RED
+            b_copy = [[cell for cell in row] for row in board]
+            b_copy[openRow][col] = Player.RED
+            log(f"{turn}, b_copy:\n{NL.join([str(row) for row in b_copy])}\n")
             new_score = minimax(b_copy, depth - 1, Player.BLUE)
+            log(f"{turn}, new_score: {new_score}")
             if new_score > value:
                 value = new_score
-                column = col
+                log(f"{turn}, new value: {value}")
         return value
     else:
         value = math.inf
-        column = random.choice(places)
+        log(f"{turn}, turn, value: {value}")
+
         openRow = None
         for col in places:
-            for row in range(ROW_COUNT):
-                if board[row][col] == 0:
+            for row in range(ROW_COUNT - 1, -1, -1):
+                log(f"{turn}, row: {row}, col: {col}")
+                if not board[row][col]:
+                    log(f"{turn}, found empty spot")
                     openRow = row
+                    break
 
-            b_copy = board.copy()
-            board[openRow][col] = Player.BLUE
+            b_copy = [[cell for cell in row] for row in board]
+            b_copy[openRow][col] = Player.BLUE
             new_score = minimax(b_copy, depth - 1, Player.RED)
+            log(f"{turn}, new_score: {new_score}")
             if new_score < value:
                 value = new_score
-                column = col
+                log(f"{turn}, new value: {value}")
         return value
 
 
-def alphaBetapruning(
+# Returns the score and the move that got that score (i.e. column)
+def alpha_beta_pruning(
         board: Board,
         depth: int,
         alpha: int,
         beta: int,
         player: Player
 ):
+    turn = "RED" if player == Player.RED else "BLUE"
+    log(f"depth: {depth}, player: {turn}")
+
     places = []
     for col in range(COLUMN_COUNT):
-        if board[0][col] == None:
+        if not board[0][col]:
             places.append(col)
 
+    NL = "\n"
+    log(f"{turn}, board:\n{NL.join([str(row) for row in board])}\n")
+    log(f"{turn}, places: {places}")
+
     if winning_move(board, Player.RED):
+        log("RED won")
         return 1
     elif winning_move(board, Player.BLUE):
-        return 1
+        log("BLUE won")
+        return -1
     elif (len(places) == 0):
+        log("tie")
         return 0
+
     if depth == 0:
-        return evaluate_board(board, player)
+        log(f"{turn}, depth reached")
+        eval = evaluate_board(board, player)
+        log(f"{turn}, eval: {eval}")
+        return eval
 
     if player == Player.RED:
         value = -math.inf
-        column = random.choice(places)
+        log(f"{turn}, value: {value}")
+
         openRow = None
         for col in places:
-            for row in range(ROW_COUNT):
-                if board[row][col] == 0:
+            for row in range(ROW_COUNT - 1, -1, -1):
+                log(f"{turn}, row: {row}, col: {col}")
+                if not board[row][col]:
+                    log(f"{turn}, found empty spot")
                     openRow = row
+                    break
 
-            b_copy = board.copy()
-            board[openRow][col] = Player.RED
-            new_score = minimax(b_copy, depth - 1, Player.BLUE)
+            b_copy = [[cell for cell in row] for row in board]
+            b_copy[openRow][col] = Player.RED
+            log(f"{turn}, b_copy:\n{NL.join([str(row) for row in b_copy])}\n")
+            new_score = alpha_beta_pruning(b_copy, depth - 1, alpha, beta, Player.BLUE)
+            log(f"{turn}, new_score: {new_score}")
             if new_score > value:
                 value = new_score
-                column = col
+                log(f"{turn}, new value: {value}")
             alpha = max(alpha, value)
-            if beta <= alpha:
+            if alpha >= beta:
                 break
         return value
     else:
         value = math.inf
-        column = random.choice(places)
+        log(f"{turn}, turn, value: {value}")
+
         openRow = None
         for col in places:
-            for row in range(ROW_COUNT):
-                if board[row][col] == 0:
+            for row in range(ROW_COUNT - 1, -1, -1):
+                log(f"{turn}, row: {row}, col: {col}")
+                if not board[row][col]:
+                    log(f"{turn}, found empty spot")
                     openRow = row
+                    break
 
-            b_copy = board.copy()
-            board[openRow][col] = Player.BLUE
-            new_score = minimax(b_copy, depth - 1, Player.RED)
+            b_copy = [[cell for cell in row] for row in board]
+            b_copy[openRow][col] = Player.BLUE
+            new_score = alpha_beta_pruning(b_copy, depth - 1, alpha, beta, Player.RED)
+            log(f"{turn}, new_score: {new_score}")
             if new_score < value:
                 value = new_score
-                column = col
+                log(f"{turn}, new value: {value}")
             beta = min(beta, value)
-            if beta <= alpha:
+            if alpha >= beta:
                 break
         return value
 
