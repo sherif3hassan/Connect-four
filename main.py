@@ -72,7 +72,6 @@ def evaluate_window(window: Window, player: Player) -> Score:
         score += 2
 
     # if there are 3 pieces of the opponent in a window, the player loses 4 points
-
     if window.count(opponent_piece) == 3 and window.count(None) == 1:
         score -= 4
 
