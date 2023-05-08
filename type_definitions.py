@@ -1,4 +1,4 @@
-from types import List
+from typing import List
 import enum
 
 # Types
