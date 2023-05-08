@@ -1,4 +1,4 @@
-from type import List, Union
+from type import List
 import enum
 
 # Types
@@ -10,4 +10,3 @@ Score = int
 class Player(enum.Enum):
     RED = 1
     BLUE = 2
-

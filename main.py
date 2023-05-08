@@ -1,4 +1,5 @@
-from types import Player, Board, Score, Window, Union
+from type_definitions import Player, Board, Score, Window
+from types import Union
 
 
 def minimax(
