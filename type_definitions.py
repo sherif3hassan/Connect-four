@@ -1,8 +1,5 @@
-import enum
 from typing import List, Union
-
-# Types
-Board = List[List]
+import enum
 
 Score = int
 
@@ -12,4 +9,5 @@ class Player(enum.Enum):
     BLUE = 2
 
 
+Board = List[List[Player]]
 Window = List[Union[Player, None]]
