@@ -19,7 +19,17 @@ def evaluate_board(board: Board, player: Player):
 
 
 def is_game_over(board: Board) -> Union[Player, None]:
-    ...
+
+
+
+    if Window.count(Player.RED) == 4:
+        return Player.RED
+    elif Window.count(Player.BLUE) == 4:
+        return Player.BLUE
+    else:
+        return None
+    
+
 
 
 def evaluate_window(window: Window, player: Player) -> Score:
