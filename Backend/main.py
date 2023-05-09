@@ -2,7 +2,7 @@ import math
 import random
 from typing import Union
 
-from type_definitions import COLUMN_COUNT, ROW_COUNT, Board, Player, Score, Window
+from type_definitions import COLUMN_COUNT, ROW_COUNT, Board, Player, Score, Window, Move
 
 DEBUG = True
 

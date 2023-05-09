@@ -19,3 +19,9 @@ class Player(enum.Enum):
 Board = List[List[Player]]  # Board is a 2D list of Player pieces
 # The Window may contain Player pieces or is empty
 Window = List[Union[Player, None]]
+
+
+class Move:
+    def __init__(self, column: int, score: Score):
+        self.column = column
+        self.score = score
