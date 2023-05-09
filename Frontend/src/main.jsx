@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+// import App from './App.jsx'
+import GameSettings from './GameSettings';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
 
-    <App />
-)
+const reactStartingPoint = ReactDOM.createRoot(rootElement);
+
+reactStartingPoint.render(<GameSettings />);

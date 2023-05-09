@@ -1,8 +1,11 @@
-function connect4(){
+
+function App(){
     return (
         <div>
             <h1>Connect 4</h1>
         </div>
     );
 }
-export default connect4;
+
+
+export default App;
