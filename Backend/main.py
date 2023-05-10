@@ -58,15 +58,14 @@ def minimax(
     log(f"{turn}, board:\n{NL.join([str(row) for row in board])}\n")
     log(f"{turn}, places: {places}")
 
-    if winning_move(board, Player.RED):
-        log("RED won")
-        return 1
-    elif winning_move(board, Player.BLUE):
-        log("BLUE won")
-        return -1
-    elif (len(places) == 0):
-        log("tie")
-        return 0
+    winner = is_game_over(board)
+    if winner == Player.RED:
+        return Move(None, math.inf)
+    elif winner == Player.BLUE:
+        return Move(None, -math.inf)
+    elif winner == "draw":
+        return Move(None, 0)
+
     # if the depth is reached, evaluate the board and return the evaluation score
     if depth == 0:
         log(f"{turn}, depth reached")
@@ -144,15 +143,14 @@ def alpha_beta_pruning(
     log(f"{turn}, board:\n{NL.join([str(row) for row in board])}\n")
     log(f"{turn}, places: {places}")
 
-    if winning_move(board, Player.RED):
-        log("RED won")
-        return 1
-    elif winning_move(board, Player.BLUE):
-        log("BLUE won")
-        return -1
-    elif (len(places) == 0):
-        log("tie")
-        return 0
+    winner = is_game_over(board)
+    if winner == Player.RED:
+        return Move(None, math.inf)
+    elif winner == Player.BLUE:
+        return Move(None, -math.inf)
+    elif winner == "draw":
+        return Move(None, 0)
+
     # if the depth is reached, evaluate the board and return the evaluation score
     if depth == 0:
         log(f"{turn}, depth reached")
