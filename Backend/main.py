@@ -4,7 +4,7 @@ from typing import Union
 
 from type_definitions import COLUMN_COUNT, ROW_COUNT, Board, Player, Score, Window, Move
 
-DEBUG = True
+DEBUG = False
 
 
 def log(msg: str):
