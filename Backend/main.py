@@ -77,6 +77,7 @@ def minimax(
         value = -math.inf
         log(f"{turn}, value: {value}")
         openRow = None
+        actual_column = random.choice(places)
         # for each possible move, find the row where the piece will be placed
         for col in places:
             for row in range(ROW_COUNT - 1, -1, -1):
@@ -91,12 +92,14 @@ def minimax(
             b_copy[openRow][col] = Player.RED
             log(f"{turn}, b_copy:\n{NL.join([str(row) for row in b_copy])}\n")
             # recursively call minimax with the new board, depth - 1, and the next player's turn
-            new_score = minimax(b_copy, depth - 1, Player.BLUE)
+            new_move = minimax(b_copy, depth - 1, Player.BLUE)
+            new_score = new_move.score
             log(f"{turn}, new_score: {new_score}")
             # if the new score is greater than the current value, set the value to the new score
             if new_score > value:
                 value = new_score
                 log(f"{turn}, new value: {value}")
+                actual_column = col
         return Move(actual_column, value)
     else:
         # same as above, but for the blue player
@@ -104,6 +107,7 @@ def minimax(
         log(f"{turn}, turn, value: {value}")
 
         openRow = None
+        actual_column = random.choice(places)
         for col in places:
             for row in range(ROW_COUNT - 1, -1, -1):
                 log(f"{turn}, row: {row}, col: {col}")
@@ -114,11 +118,13 @@ def minimax(
 
             b_copy = [[cell for cell in row] for row in board]
             b_copy[openRow][col] = Player.BLUE
-            new_score = minimax(b_copy, depth - 1, Player.RED)
+            new_move = minimax(b_copy, depth - 1, Player.RED)
+            new_score = new_move.score
             log(f"{turn}, new_score: {new_score}")
             if new_score < value:
                 value = new_score
                 log(f"{turn}, new value: {value}")
+                actual_column = col
         return Move(actual_column, value)
 
 
@@ -162,6 +168,7 @@ def alpha_beta_pruning(
         value = -math.inf
         log(f"{turn}, value: {value}")
         openRow = None
+        actual_column = random.choice(places)
         # for each possible move, find the row where the piece will be placed
         for col in places:
             for row in range(ROW_COUNT - 1, -1, -1):
@@ -175,13 +182,15 @@ def alpha_beta_pruning(
             b_copy = [[cell for cell in row] for row in board]
             b_copy[openRow][col] = Player.RED
             log(f"{turn}, b_copy:\n{NL.join([str(row) for row in b_copy])}\n")
-            new_score = alpha_beta_pruning(
+            new_move = alpha_beta_pruning(
                 b_copy, depth - 1, alpha, beta, Player.BLUE)
+            new_score = new_move.score
             log(f"{turn}, new_score: {new_score}")
             # if the new score is greater than the current value, set the value to the new score
             if new_score > value:
                 value = new_score
                 log(f"{turn}, new value: {value}")
+                actual_column = col
             # set alpha to the max of alpha and the new score
             alpha = max(alpha, value)
             # if alpha is greater than or equal to beta, break out of the loop
@@ -194,6 +203,7 @@ def alpha_beta_pruning(
         value = math.inf
         log(f"{turn}, turn, value: {value}")
         openRow = None
+        actual_column = random.choice(places)
         for col in places:
             for row in range(ROW_COUNT - 1, -1, -1):
                 log(f"{turn}, row: {row}, col: {col}")
@@ -204,12 +214,14 @@ def alpha_beta_pruning(
 
             b_copy = [[cell for cell in row] for row in board]
             b_copy[openRow][col] = Player.BLUE
-            new_score = alpha_beta_pruning(
+            new_move = alpha_beta_pruning(
                 b_copy, depth - 1, alpha, beta, Player.RED)
+            new_score = new_move.score
             log(f"{turn}, new_score: {new_score}")
             if new_score < value:
                 value = new_score
                 log(f"{turn}, new value: {value}")
+                actual_column = col
             beta = min(beta, value)
             if alpha >= beta:
                 break
