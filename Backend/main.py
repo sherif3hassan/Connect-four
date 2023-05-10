@@ -277,92 +277,81 @@ def evaluate_board(board: Board, player: Player):
 
     return value
 
+
 # once the game reaches an end state, return the winner
-
-
 def is_game_over(board: Board) -> Union[Player, None]:
     # check if there are 4 pieces in a row horizontally, vertically, or diagonally
     # if there are, return the winning player
+    log(f"board rows: {len(board)}, board cols: {len(board[0])}")
 
-    # Horizontal Window Check
+    if board[0].count(None) == 0:
+        return "draw"
+
     for row in range(len(board)):
         for col in range(len(board[0])):
+            # Horizontal Window Check
             if col + 3 < len(board[0]):
-                Window = [
+                window = [
                     board[row][col + 0],
                     board[row][col + 1],
                     board[row][col + 2],
                     board[row][col + 3]
                 ]
 
-                if Window.count(Player.RED) == 4:
-                    return Player.RED
-                elif Window.count(Player.BLUE) == 4:
-                    return Player.BLUE
-                else:
-                    return None
+                log(f"horizontal window: {window}")
 
-        # Vertical Window Check
-    for row in range(len(board)):
-        for col in range(len(board[0])):
+                if window.count(Player.RED) == 4:
+                    return Player.RED
+                elif window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+
+            # Vertical Window Check
             if row + 3 < len(board):
-                Window = [
+                window = [
                     board[row + 0][col],
                     board[row + 1][col],
                     board[row + 2][col],
                     board[row + 3][col]
                 ]
 
-                if Window.count(Player.RED) == 4:
-                    return Player.RED
-                elif Window.count(Player.BLUE) == 4:
-                    return Player.BLUE
-                else:
-                    return None
+                log(f"vertical window: {window}")
 
-        # Diagonal Window Check
-    for row in range(len(board)):
-        for col in range(len(board[0])):
+                if window.count(Player.RED) == 4:
+                    return Player.RED
+                elif window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+
+            # Diagonal Window Check
             if row + 3 < len(board) and col + 3 < len(board[0]):
-                Window = [
+                window = [
                     board[row + 0][col + 0],
                     board[row + 1][col + 1],
                     board[row + 2][col + 2],
                     board[row + 3][col + 3]
                 ]
 
-                if Window.count(Player.RED) == 4:
-                    return Player.RED
-                elif Window.count(Player.BLUE) == 4:
-                    return Player.BLUE
-                else:
-                    return None
+                log(f"diagonal down-right window: {window}")
 
-        # Diagonal Window Check
-    for row in range(len(board)):
-        for col in range(len(board[0])):
+                if window.count(Player.RED) == 4:
+                    return Player.RED
+                elif window.count(Player.BLUE) == 4:
+                    return Player.BLUE
+
+            # Diagonal Window Check
             if row + 3 < len(board) and col - 3 >= 0:
-                Window = [
+                window = [
                     board[row + 0][col - 0],
                     board[row + 1][col - 1],
                     board[row + 2][col - 2],
                     board[row + 3][col - 3]
                 ]
 
-                if Window.count(Player.RED) == 4:
-                    return Player.RED
-                elif Window.count(Player.BLUE) == 4:
-                    return Player.BLUE
-                else:
-                    return None
+                log(f"diagonal down-left window: {window}")
 
-    # if there are no more empty spaces, the game ends in a draw
-    for row in range(len(board)):
-        for col in range(len(board[0])):
-            if board[row][col] == None:
-                return None
-            else:
-                return "Draw"
+                if window.count(Player.RED) == 4:
+                    return Player.RED
+                elif window.count(Player.BLUE) == 4:
+                    return Player.BLUE
 
 
 def evaluate_window(window: Window, player: Player) -> Score:
