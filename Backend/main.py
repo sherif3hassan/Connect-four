@@ -44,7 +44,7 @@ def minimax(
         board: Board,
         depth: int,
         player: Player
-):
+) -> Move:
     # declare the player's turn
     turn = "RED" if player == Player.RED else "BLUE"
     log(f"depth: {depth}, player: {turn}")
@@ -72,7 +72,7 @@ def minimax(
         log(f"{turn}, depth reached")
         eval = evaluate_board(board, player)
         log(f"{turn}, eval: {eval}")
-        return eval
+        return Move(None, eval)
 
     if player == Player.RED:
         value = -math.inf
@@ -98,7 +98,7 @@ def minimax(
             if new_score > value:
                 value = new_score
                 log(f"{turn}, new value: {value}")
-        return value
+        return Move(actual_column, value)
     else:
         # same as above, but for the blue player
         value = math.inf
@@ -120,7 +120,7 @@ def minimax(
             if new_score < value:
                 value = new_score
                 log(f"{turn}, new value: {value}")
-        return value
+        return Move(actual_column, value)
 
 
 # Returns the score and the move that got that score (i.e. column)
@@ -130,7 +130,7 @@ def alpha_beta_pruning(
         alpha: int,
         beta: int,
         player: Player
-):
+) -> Move:
     # declare the player's turn
     turn = "RED" if player == Player.RED else "BLUE"
     log(f"depth: {depth}, player: {turn}")
@@ -158,7 +158,7 @@ def alpha_beta_pruning(
         log(f"{turn}, depth reached")
         eval = evaluate_board(board, player)
         log(f"{turn}, eval: {eval}")
-        return eval
+        return Move(None, eval)
 
     if player == Player.RED:
         value = -math.inf
@@ -190,7 +190,7 @@ def alpha_beta_pruning(
             # because there's no need to check the other moves
             if alpha >= beta:
                 break
-        return value
+        return Move(actual_column, value)
     else:
         # same as above, but for the blue player
         value = math.inf
@@ -215,7 +215,7 @@ def alpha_beta_pruning(
             beta = min(beta, value)
             if alpha >= beta:
                 break
-        return value
+        return Move(actual_column, value)
 
 
 # Evalute the board
