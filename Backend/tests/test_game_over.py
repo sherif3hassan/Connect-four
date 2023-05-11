@@ -1,5 +1,8 @@
-from main import is_game_over
-from main import Player
+from test_utils import ensure
+
+from type_definitions import Player
+from engine.rules import is_game_over
+
 
 Red_ = Player.RED
 Blue = Player.BLUE
@@ -15,4 +18,4 @@ board = [
 ]
 
 if __name__ == "__main__":
-    print(is_game_over(board))
+    ensure(is_game_over, [board], "draw")
