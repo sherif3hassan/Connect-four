@@ -1,8 +1,9 @@
 import math
 
-from type_definitions import Player
 from engine.alpha_beta_pruning import alpha_beta_pruning
+from engine.minimax import minimax
 from engine.rules import is_game_over
+from type_definitions import Player
 
 
 class Difficulty:
@@ -39,10 +40,14 @@ def human_move(board):
     return board
 
 
-def computer_move(board):
+def computer_move(board, flag):
     global turn
+    global difficulty
+    if not flag:
+        move = minimax(board, difficulty, turn)
+    else:
+        move = alpha_beta_pruning(board, difficulty, -math.inf, math.inf, turn)
 
-    move = alpha_beta_pruning(board, difficulty, -math.inf, math.inf, turn)
     column = move.column
 
     for row in range(len(board) - 1, -1, -1):
@@ -69,7 +74,7 @@ def play():
         print_board(board)
 
         if turn == Player.RED:
-            board = human_move(board)
+            board = computer_move(board)
         elif turn == Player.BLUE:
             board = computer_move(board)
 
