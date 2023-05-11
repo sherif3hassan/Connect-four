@@ -1,36 +1,38 @@
 import React, { useState, useCallback } from "react";
 import { difficultyConverter, getDifficulty } from "./utils";
 import { useNavigate } from "react-router-dom";
+import { useGameContext } from "./GameContext";
 function GameSettings() {
-  const [algorithmType, setAlgorithmType] = useState("minimax"); // default algorithm type is minimax
-  const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
+  // const [algorithmType, setAlgorithmType] = useState("minimax"); // default algorithm type is minimax
+  // const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
+
+  const {
+    algorithmType,
+    setAlgorithmType,
+    difficultyLevel,
+    setDifficultyLevel,
+  } = useGameContext();
+
   const navigate = useNavigate();
-  
 
   // recreate playNextMove only when algorithmType changes
   // useCallback(playNextMove, [algorithmType])
 
-  async function playNextMove() {
-    const response = await fetch(`http://localhost:8000/next/`, {
+  async function handleAlgorithmTypeChange(event) {
+    const response = await fetch(`http://localhost:8000/switchalgorithm/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        flag: algorithmType !== "minimax",
+        algorithm: event.target.value,
       }),
     });
-
     const data = await response.json();
-    return data.board;
-  }
-
-  function handleAlgorithmTypeChange(event) {
-    setAlgorithmType(event.target.value);
+    setAlgorithmType(data.algorithm);
   }
 
   async function handleDifficultyLevelChange(event) {
-    setDifficultyLevel(event.target.value);
     const response = await fetch(`http://localhost:8000/difficulty/`, {
       method: "POST",
       headers: {
