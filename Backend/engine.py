@@ -1,5 +1,5 @@
 import math
-from main import minimax, is_game_over, alpha_beta_pruning, Player
+from main import is_game_over, alpha_beta_pruning, Player
 
 
 turn = Player.RED
