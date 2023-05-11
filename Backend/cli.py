@@ -1,15 +1,25 @@
 import math
-from main import is_game_over, alpha_beta_pruning, Player
+
+from type_definitions import Player
+from engine.alpha_beta_pruning import alpha_beta_pruning
+from engine.rules import is_game_over
+
+
+class Difficulty:
+    EASY = 1
+    MEDIUM = 3
+    HARD = 5
 
 
 turn = Player.RED
-difficulty = 5
+difficulty = Difficulty.HARD
 
 
 def print_board(board):
     for row in board:
         for cell in row:
-            print("R" if cell == Player.RED else "B" if cell == Player.BLUE else "#", end=" ")
+            print("R" if cell == Player.RED else "B" if cell ==
+                  Player.BLUE else "#", end=" ")
         print()
     print()
 
