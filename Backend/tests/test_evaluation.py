@@ -1,19 +1,28 @@
 from type_definitions import Player
-from engine.evaluation import (
-    evaluate_board,
-)
+from test_utils import ensure
+from engine.evaluation import evaluate_board
+
 
 Red_ = Player.RED
 Blue = Player.BLUE
 
-board = [
-    [None, None, None, None, None, None, None],
-    [None, None, None, None, None, None, None],
-    [None, None, None, None, None, None, None],
-    [None, None, None, None, Red_, None, None],
-    [None, None, None, Red_, Blue, None, None],
-    [None, None, Red_, Blue, Blue, Blue, None]
-]
-
 if __name__ == "__main__":
-    print(evaluate_board(board, Player.RED))
+    ensure(evaluate_board, (
+        [[None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, Blue, Blue, Blue, Blue, None]],
+        Blue
+    ), 2 + 5 + 100 + 5)
+
+    ensure(evaluate_board, (
+        [[None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, None, None, None, None, None, None],
+         [None, Blue, Blue, Blue, Blue, None, None]],
+        Red_
+    ), -4 + -4)

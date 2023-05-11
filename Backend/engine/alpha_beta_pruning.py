@@ -1,6 +1,9 @@
 import math
 import random
 
+from engine.rules import is_game_over
+from engine.evaluation import evaluate_board
+
 from type_definitions import (
     COLUMN_COUNT,
     ROW_COUNT,
