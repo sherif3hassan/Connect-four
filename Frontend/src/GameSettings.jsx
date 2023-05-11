@@ -1,30 +1,52 @@
-import React, { useState } from "react";
-
-function GameSettings(props) {
+import React, { useState, useCallback } from "react";
+import { difficultyConverter, getDifficulty } from "./utils";
+import { useNavigate } from "react-router-dom";
+function GameSettings() {
   const [algorithmType, setAlgorithmType] = useState("minimax"); // default algorithm type is minimax
   const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
+  const navigate = useNavigate();
+  
+
+  // recreate playNextMove only when algorithmType changes
+  // useCallback(playNextMove, [algorithmType])
+
+  async function playNextMove() {
+    const response = await fetch(`http://localhost:8000/next/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        flag: algorithmType !== "minimax",
+      }),
+    });
+
+    const data = await response.json();
+    return data.board;
+  }
 
   function handleAlgorithmTypeChange(event) {
-    const response=await fetch(`http://localhost:8000/algorithm/`,{
     setAlgorithmType(event.target.value);
   }
 
   async function handleDifficultyLevelChange(event) {
-    
-    const response=await fetch(`http://localhost:8000/difficulty/`,{
-      method: 'POST',
+    setDifficultyLevel(event.target.value);
+    const response = await fetch(`http://localhost:8000/difficulty/`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({difficulty: event.target.value}),
-      
-    } );
-    const data=await response.json();
-    setDifficultyLevel(data.difficulty);
+      body: JSON.stringify({
+        difficulty: difficultyConverter(event.target.value),
+      }),
+    });
+    const data = await response.json();
+
+    setDifficultyLevel(getDifficulty(data.difficulty));
   }
 
   function handleStartGameClick() {
-    // handle this
+    navigate("/game");
   }
 
   return (
