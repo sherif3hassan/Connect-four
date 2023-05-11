@@ -1,5 +1,7 @@
-from main import is_game_over
-from main import Player
+from engine.rules import (
+    is_game_over,
+)
+from type_definitions import Player
 
 Red_ = Player.RED
 Blue = Player.BLUE

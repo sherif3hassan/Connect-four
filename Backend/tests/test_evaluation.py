@@ -1,4 +1,7 @@
-from main import evaluate_board, Player
+from type_definitions import Player
+from engine.evaluation import (
+    evaluate_board,
+)
 
 Red_ = Player.RED
 Blue = Player.BLUE
