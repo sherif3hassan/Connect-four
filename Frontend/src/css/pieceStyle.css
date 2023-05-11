@@ -2,7 +2,16 @@
     border-radius: 50%;
     width: 100px; 
     aspect-ratio: 1/1;
-    background-color: red;
+
     position: absolute;
     z-index: 1;
 }
+
+.piece-red{
+    background-color: red;
+}
+
+.piece-blue{
+    background-color: blue;
+}
+
