@@ -1,12 +1,27 @@
 import math
-from type_definitions import Player, ROW_COUNT, Board, COLUMN_COUNT
-from engine.minimax import minimax
+from typing import Optional
+
 from engine.alpha_beta_pruning import alpha_beta_pruning
+from engine.minimax import minimax
 from engine.rules import is_game_over
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, validator
+from type_definitions import COLUMN_COUNT, ROW_COUNT, Board, Player
 
 app = FastAPI()
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Game:
@@ -44,13 +59,14 @@ class Game:
         return False
 
     @classmethod
-    def next_move(cls,flag):
+    def next_move(cls, flag):
         if cls.game_over:
             raise Exception("Game is over")
-        if flag:
+        if not flag:
             move = minimax(cls.board, cls.difficulty, cls.turn)
         else:
-            move = alpha_beta_pruning(cls.board, cls.difficulty,-math.inf,math.inf, cls.turn)
+            move = alpha_beta_pruning(
+                cls.board, cls.difficulty, -math.inf, math.inf, cls.turn)
         if move.column is not None:
             cls.place_piece(move.column)
             if not cls.check_winner():
@@ -105,10 +121,14 @@ async def get_winner():
     return {"winner": json_turn(Game.winner) if Game.winner else None}
 
 
+class NextMoveBody(BaseModel):
+    flag: Optional[bool] = False
+
+
 @app.post("/next")
-async def next_move():
+async def next_move(body: NextMoveBody):
     try:
-        Game.next_move()
+        Game.next_move(body.flag)
         return {"board": json_board(Game.board)}
     except Exception as e:
         return {"error": str(e)}
