@@ -1,5 +1,7 @@
+import math
 from type_definitions import Player, ROW_COUNT, Board, COLUMN_COUNT
 from engine.minimax import minimax
+from engine.alpha_beta_pruning import alpha_beta_pruning
 from engine.rules import is_game_over
 from fastapi import FastAPI
 from pydantic import BaseModel, validator
@@ -42,10 +44,13 @@ class Game:
         return False
 
     @classmethod
-    def next_move(cls):
+    def next_move(cls,flag):
         if cls.game_over:
             raise Exception("Game is over")
-        move = minimax(cls.board, cls.difficulty, cls.turn)
+        if flag:
+            move = minimax(cls.board, cls.difficulty, cls.turn)
+        else:
+            move = alpha_beta_pruning(cls.board, cls.difficulty,-math.inf,math.inf, cls.turn)
         if move.column is not None:
             cls.place_piece(move.column)
             if not cls.check_winner():

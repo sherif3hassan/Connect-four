@@ -9,4 +9,4 @@ const rootElement = document.getElementById("root");
 
 const reactStartingPoint = ReactDOM.createRoot(rootElement);
 
-reactStartingPoint.render(<GameBoard />);
+reactStartingPoint.render(<GameSettings />);

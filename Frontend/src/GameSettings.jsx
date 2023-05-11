@@ -5,11 +5,22 @@ function GameSettings(props) {
   const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
 
   function handleAlgorithmTypeChange(event) {
+    const response=await fetch(`http://localhost:8000/algorithm/`,{
     setAlgorithmType(event.target.value);
   }
 
-  function handleDifficultyLevelChange(event) {
-    setDifficultyLevel(event.target.value);
+  async function handleDifficultyLevelChange(event) {
+    
+    const response=await fetch(`http://localhost:8000/difficulty/`,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({difficulty: event.target.value}),
+      
+    } );
+    const data=await response.json();
+    setDifficultyLevel(data.difficulty);
   }
 
   function handleStartGameClick() {
