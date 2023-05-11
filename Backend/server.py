@@ -37,6 +37,7 @@ class Game:
     difficulty = 3
     game_over = False
     winner = None
+    algorithm = "minimax"
 
     @classmethod
     def switch_turn(cls):
@@ -59,10 +60,10 @@ class Game:
         return False
 
     @classmethod
-    def next_move(cls, flag):
+    def next_move(cls):
         if cls.game_over:
             raise Exception("Game is over")
-        if not flag:
+        if cls.algorithm == "minimax":
             move = minimax(cls.board, cls.difficulty, cls.turn)
         else:
             move = alpha_beta_pruning(
@@ -93,6 +94,8 @@ class Game:
             [None, None, None, None, None, None, None],
         ]
         cls.turn = Player.RED
+        cls.game_over = False
+        cls.winner = None
 
 
 def json_turn(turn: Player):
@@ -121,17 +124,30 @@ async def get_winner():
     return {"winner": json_turn(Game.winner) if Game.winner else None}
 
 
-class NextMoveBody(BaseModel):
-    flag: Optional[bool] = False
-
-
 @app.post("/next")
-async def next_move(body: NextMoveBody):
+async def next_move():
     try:
-        Game.next_move(body.flag)
+        Game.next_move()
         return {"board": json_board(Game.board)}
     except Exception as e:
-        return {"error": str(e)}
+        # return {"error": str(e)}
+        pass
+
+
+class AlgorithmBody(BaseModel):
+    algorithm: str
+
+    @validator("algorithm")
+    def algorithm_must_be_in_range(cls, v):
+        if v not in ["minimax", "alpha-beta"]:
+            raise ValueError("Must be minimax or alpha_beta_pruning")
+        return v
+
+
+@app.post("/switchalgorithm")
+async def switch_algorithm(body: AlgorithmBody):
+    Game.algorithm = body.algorithm
+    return {"algorithm": Game.algorithm}
 
 
 class PlayBody(BaseModel):
@@ -150,7 +166,8 @@ async def play(body: PlayBody):
         Game.play(body.column)
         return {"board": json_board(Game.board)}
     except Exception as e:
-        return {"error": str(e)}
+        # return {"error": str(e)}
+        pass
 
 
 @app.get("/difficulty")
