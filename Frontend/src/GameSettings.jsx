@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { difficultyConverter, getDifficulty } from "./utils";
 import { useNavigate } from "react-router-dom";
 import { useGameContext } from "./GameContext";
+import "./css/gameSettings.css";
 function GameSettings() {
   // const [algorithmType, setAlgorithmType] = useState("minimax"); // default algorithm type is minimax
   // const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
@@ -53,11 +54,11 @@ function GameSettings() {
 
   return (
     <div>
-      <h2>Game Settings</h2>
-      <div>
-        <label htmlFor='algorithmTypeSelect'>Algorithm Type:</label>
+      <h2 className='header'>Game Settings</h2>
+      <div className='algoSelect'>
+        <label>Algorithm Type:</label>
         <select
-          id='algorithmTypeSelect'
+          className='algorithmTypeSelect'
           value={algorithmType}
           onChange={handleAlgorithmTypeChange}
         >
@@ -65,10 +66,10 @@ function GameSettings() {
           <option value='alpha-beta'>Alpha-Beta Pruning</option>
         </select>
       </div>
-      <div>
-        <label htmlFor='difficultyLevelSelect'>Difficulty Level:</label>
+      <div className='difficultySelect'>
+        <label>Difficulty Level:</label>
         <select
-          id='difficultyLevelSelect'
+          className='difficultyLevelSelect'
           value={difficultyLevel}
           onChange={handleDifficultyLevelChange}
         >
@@ -77,7 +78,9 @@ function GameSettings() {
           <option value='hard'>Hard</option>
         </select>
       </div>
-      <button onClick={handleStartGameClick}>Start Game</button>
+      <button className='startBtn' onClick={handleStartGameClick}>
+        Start Game
+      </button>
     </div>
   );
 }
