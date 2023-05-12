@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font: 1.2rem "Roboto", sans-serif;
 }
 
 body,
@@ -9,6 +10,8 @@ html,
 #root {
   height: 100%;
   background-color: #111;
+  color: white;
+
 }
 
 #root {
