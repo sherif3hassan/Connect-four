@@ -3,6 +3,17 @@
     margin-bottom: 2rem;
 }
 
+.setting-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 0.2rem solid #fafafa;
+    background-color: #333;
+}
+
 .algoSelect,
 .difficultySelect {
     margin-bottom: 1rem;
@@ -20,12 +31,13 @@ select {
     border-radius: 0.5rem;
     background-color: #f0f0f0;
     color: #333;
+    border: none;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
 
 select:hover{
-    background-color: #e0e0e0;
+    background-color: rgb(199, 192, 192);
 }
 
 
