@@ -1,56 +1,56 @@
-import React, { useState, useCallback } from "react";
+import "./css/settingsStyle.css";
 import { difficultyConverter, getDifficulty } from "./utils";
 import { useNavigate } from "react-router-dom";
 import { useGameContext } from "./GameContext";
 import "./css/gameSettings.css";
 function GameSettings() {
-  // const [algorithmType, setAlgorithmType] = useState("minimax"); // default algorithm type is minimax
-  // const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
+    // const [algorithmType, setAlgorithmType] = useState("minimax"); // default algorithm type is minimax
+    // const [difficultyLevel, setDifficultyLevel] = useState("easy"); // default difficulty level is easy
 
-  const {
-    algorithmType,
-    setAlgorithmType,
-    difficultyLevel,
-    setDifficultyLevel,
-  } = useGameContext();
+    const {
+        algorithmType,
+        setAlgorithmType,
+        difficultyLevel,
+        setDifficultyLevel,
+    } = useGameContext();
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  // recreate playNextMove only when algorithmType changes
-  // useCallback(playNextMove, [algorithmType])
+    // recreate playNextMove only when algorithmType changes
+    // useCallback(playNextMove, [algorithmType])
 
-  async function handleAlgorithmTypeChange(event) {
-    const response = await fetch(`http://localhost:8000/switchalgorithm/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        algorithm: event.target.value,
-      }),
-    });
-    const data = await response.json();
-    setAlgorithmType(data.algorithm);
-  }
+    async function handleAlgorithmTypeChange(event) {
+        const response = await fetch(`http://localhost:8000/switchalgorithm/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                algorithm: event.target.value,
+            }),
+        });
+        const data = await response.json();
+        setAlgorithmType(data.algorithm);
+    }
 
-  async function handleDifficultyLevelChange(event) {
-    const response = await fetch(`http://localhost:8000/difficulty/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        difficulty: difficultyConverter(event.target.value),
-      }),
-    });
-    const data = await response.json();
+    async function handleDifficultyLevelChange(event) {
+        const response = await fetch(`http://localhost:8000/difficulty/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                difficulty: difficultyConverter(event.target.value),
+            }),
+        });
+        const data = await response.json();
 
-    setDifficultyLevel(getDifficulty(data.difficulty));
-  }
+        setDifficultyLevel(getDifficulty(data.difficulty));
+    }
 
-  function handleStartGameClick() {
-    navigate("/game");
-  }
+    function handleStartGameClick() {
+        navigate("/game");
+    }
 
   return (
     <div>

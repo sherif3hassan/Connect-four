@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./css/boardStyle.css";
 import Piece from "./Piece";
 import { useEffect } from "react";
@@ -22,10 +21,21 @@ async function getBoard() {
 function GameBoard() {
   const navigate = useNavigate();
   const { board, setBoard, playNextMove } = useGameContext();
+
+  async function handleReset() {
+    const response = await fetch(`http://localhost:8000/reset/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    setBoard(data.board);
+  }
+
   useEffect(() => {
     handleReset();
     getBoard().then((board) => {
-      console.log(board);
       if (board) {
         setBoard(board);
       }
@@ -38,16 +48,6 @@ function GameBoard() {
         setBoard(board);
       }
     });
-  }
-  async function handleReset() {
-    const response = await fetch(`http://localhost:8000/reset/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    setBoard(data.board);
   }
   function handleBack() {
     navigate("/");
@@ -62,7 +62,7 @@ function GameBoard() {
         const turn = getTurnPlayer(piece);
         if (piece !== 0) {
           Pieces.push(
-            <Piece key={i * 7 + j} x={j * 120 + 15} y={i * 108} turn={turn} />
+            <Piece key={i * 7 + j} x={j} y={i} turn={turn} />
           );
         }
       }
@@ -71,19 +71,19 @@ function GameBoard() {
 
   return (
     <>
-      <div className='board-container'>
-        <div className='piece-container'>
-          <div className='board'></div>
+      <div className="board-container">
+        <div className="piece-container">
+          <div className="board"></div>
           {Pieces}
         </div>
-        <div className='button-container'>
-          <button className='backBtn' onClick={handleBack}>
+        <div className="button-container">
+          <button className="btn back-btn" onClick={handleBack}>
             Back
           </button>
-          <button className='nextMove' onClick={handleNextMove}>
+          <button className="btn next-btn" onClick={handleNextMove}>
             Next Move
           </button>
-          <button className='resetBtn' onClick={handleReset}>
+          <button className="btn reset-btn" onClick={handleReset}>
             Reset Board
           </button>
         </div>

@@ -1,134 +1,120 @@
-
-:root{
-    --boardHeight: 640px;
-    --aspectRatio: 853/640;
+:root {
+  --boardHeight: 100%;
+  --aspectRatio: 853/640;
 }
 
-
-.board{
-    background-image: url(../assets/Connect4Board.svg);
-    background-repeat: no-repeat;
-    background-size: auto 100%;
-    aspect-ratio: var(--aspectRatio);
-    height: var(--boardHeight);
-    position: relative;
-    z-index: 2;
-    background-position: center;
+.board {
+  background-image: url(../assets/Connect4Board.svg);
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  aspect-ratio: var(--aspectRatio);
+  height: var(--boardHeight);
+  position: relative;
+  z-index: 2;
+  background-position: center;
+  filter: invert(8%) sepia(94%) saturate(4568%) hue-rotate(214deg)
+    brightness(93%) contrast(92%);
 }
 
-.piece-container{
-    aspect-ratio: var(--aspectRatio);
-    height: var(--boardHeight);
-    position: relative;
-    z-index: 1;
+.piece-container {
+  aspect-ratio: var(--aspectRatio);
+  height: var(--boardHeight);
+  position: relative;
+  z-index: 1;
 }
 
-.board-container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.board-container {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-
-
-.button-container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.button-container {
+  width: 80%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-/* style the button */
+.btn {
+  padding: 10px;
+  flex: 1;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border: none;
+}
+
+.reset-btn {
+  background-color: #aa1818;
+  color: white;
+}
+
+.back-btn {
+  background-color: #5e4caf;
+  color: white;
+}
+
+.next-btn {
+}
+
 .nextMove {
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 1.5rem;
-    color: white;
-    background-color: #5e4caf;
-    border: none;
-    box-shadow: 0 9px #999;
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #5e4caf;
+  border: none;
+  box-shadow: 0 9px #999;
 }
-
-.nextMove:hover {
-    background-color: #7e6fcf;
-}
-
-.nextMove:active {
-    background-color: #3e3f4f;
-    box-shadow: 0 3px #666;
-}
-
 
 .resetBtn {
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 1.5rem;
-    color: white;
-    background-color: #aa1818;
-    border: none;
-    box-shadow: 0 9px #999;
-    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #aa1818;
+  border: none;
+  box-shadow: 0 9px #999;
 }
 
-.resetBtn:hover {
-    background-color: #cc2222;
+.backBtn {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #5e4caf;
+  border: none;
+  box-shadow: 0 9px #999;
 }
-
-.resetBtn:active {
-    background-color: #880000;
-    box-shadow: 0 3px #666;
-}
-
-.backBtn{
-    padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-        font-size: 1.5rem;
-        color: white;
-        background-color: #5e4caf;
-        border: none;
-        box-shadow: 0 9px #999;
-        transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-
-}
-
-.backBtn:hover {
-    background-color: #7e6fcf;
-}
-
-.backBtn:active {
-    background-color: #3e3f4f;
-    box-shadow: 0 3px #666;
-}
-
 
