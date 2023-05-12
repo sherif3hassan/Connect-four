@@ -1,99 +1,119 @@
-
-:root{
-    --boardHeight: 640px;
-    --aspectRatio: 853/640;
+:root {
+  --boardHeight: 100%;
+  --aspectRatio: 853/640;
 }
 
-
-.board{
-    background-image: url(../assets/Connect4Board.svg);
-    background-repeat: no-repeat;
-    background-size: auto 100%;
-    aspect-ratio: var(--aspectRatio);
-    height: var(--boardHeight);
-    position: relative;
-    z-index: 2;
-    background-position: center;
+.board {
+  background-image: url(../assets/Connect4Board.svg);
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  aspect-ratio: var(--aspectRatio);
+  height: var(--boardHeight);
+  position: relative;
+  z-index: 2;
+  background-position: center;
+  filter: invert(8%) sepia(94%) saturate(4568%) hue-rotate(214deg)
+    brightness(93%) contrast(92%);
 }
 
-.piece-container{
-    aspect-ratio: var(--aspectRatio);
-    height: var(--boardHeight);
-    position: relative;
-    z-index: 1;
+.piece-container {
+  aspect-ratio: var(--aspectRatio);
+  height: var(--boardHeight);
+  position: relative;
+  z-index: 1;
 }
 
-.board-container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.board-container {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* style the button */
-.nextMove{
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 1.5rem;
-    color: white;
-    background-color: #5e4caf;
-    border: none;
-    box-shadow: 0 9px #999;
-
+.button-container {
+  width: 80%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-.button-container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.resetBtn{
-    padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-        font-size: 1.5rem;
-        color: white;
-        background-color: #aa1818;
-        border: none;
-        box-shadow: 0 9px #999;
-
-}
-.backBtn{
-    padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-        font-size: 1.5rem;
-        color: white;
-        background-color: #5e4caf;
-        border: none;
-        box-shadow: 0 9px #999;
-
+.btn {
+  padding: 10px;
+  flex: 1;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border: none;
 }
 
+.reset-btn {
+  background-color: #aa1818;
+  color: white;
+}
+
+.back-btn {
+  background-color: #5e4caf;
+  color: white;
+}
+
+.next-btn {
+}
+
+.nextMove {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #5e4caf;
+  border: none;
+  box-shadow: 0 9px #999;
+}
+
+.resetBtn {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #aa1818;
+  border: none;
+  box-shadow: 0 9px #999;
+}
+
+.backBtn {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #5e4caf;
+  border: none;
+  box-shadow: 0 9px #999;
+}
