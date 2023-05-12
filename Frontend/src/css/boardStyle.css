@@ -32,8 +32,19 @@
     align-items: center;
 }
 
+
+
+.button-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 /* style the button */
-.nextMove{
+.nextMove {
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -49,35 +60,48 @@
     background-color: #5e4caf;
     border: none;
     box-shadow: 0 9px #999;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
 }
 
-.button-container{
+.nextMove:hover {
+    background-color: #7e6fcf;
+}
+
+.nextMove:active {
+    background-color: #3e3f4f;
+    box-shadow: 0 3px #666;
+}
+
+
+.resetBtn {
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+    background-color: #aa1818;
+    border: none;
+    box-shadow: 0 9px #999;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-.resetBtn{
-    padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-        font-size: 1.5rem;
-        color: white;
-        background-color: #aa1818;
-        border: none;
-        box-shadow: 0 9px #999;
 
+.resetBtn:hover {
+    background-color: #cc2222;
 }
+
+.resetBtn:active {
+    background-color: #880000;
+    box-shadow: 0 3px #666;
+}
+
 .backBtn{
     padding: 15px 32px;
         text-align: center;
@@ -94,6 +118,17 @@
         background-color: #5e4caf;
         border: none;
         box-shadow: 0 9px #999;
+        transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
 }
+
+.backBtn:hover {
+    background-color: #7e6fcf;
+}
+
+.backBtn:active {
+    background-color: #3e3f4f;
+    box-shadow: 0 3px #666;
+}
+
 
