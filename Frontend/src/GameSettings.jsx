@@ -77,7 +77,7 @@ function GameSettings() {
           <option value='hard'>Hard</option>
         </select>
       </div>
-      <button className='startBtn' onClick={handleStartGameClick}>
+      <button className='btn startBtn' onClick={handleStartGameClick}>
         Start Game
       </button>
     </div>
