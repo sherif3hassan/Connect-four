@@ -1,8 +1,9 @@
 from typing import Union
+
 from type_definitions import Board, Player
 
 
-def is_game_over(board: Board) -> Union[Player, None]:
+def is_game_over(board: Board) -> Union[Player, None, str]:
     # check if there are 4 pieces horizontally, vertically, or diagonally
     # if there are, return the winning player
 

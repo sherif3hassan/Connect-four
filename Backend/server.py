@@ -1,4 +1,6 @@
 import math
+import random
+import time
 from typing import Optional
 
 from engine.alpha_beta_pruning import alpha_beta_pruning
@@ -84,6 +86,17 @@ class Game:
             cls.switch_turn()
 
     @classmethod
+    def random_play(cls):
+        if cls.game_over:
+            raise Exception("Game is over")
+        column = random.randint(0, COLUMN_COUNT - 1)
+        while cls.board[0][column] is not None:
+            column = random.randint(0, COLUMN_COUNT - 1)
+        cls.place_piece(column)
+        if not cls.check_winner():
+            cls.switch_turn()
+
+    @classmethod
     def reset(cls):
         cls.board = [
             [None, None, None, None, None, None, None],
@@ -99,7 +112,7 @@ class Game:
 
 
 def json_turn(turn: Player):
-    return 1 if turn == Player.RED else 2
+    return 1 if turn == Player.RED else 2 if turn == Player.BLUE else 3
 
 
 def json_board(board: Board):
@@ -121,7 +134,10 @@ async def get_turn():
 
 @app.get("/winner")
 async def get_winner():
-    return {"winner": json_turn(Game.winner) if Game.winner else None}
+    if Game.check_winner():
+        return {"winner": json_turn(Game.winner)}
+    else:
+        return {"winner": 0}
 
 
 @app.post("/next")
@@ -158,6 +174,17 @@ class PlayBody(BaseModel):
         if v < 0 or v > COLUMN_COUNT - 1:
             raise ValueError(f"Must be in range 0 to {COLUMN_COUNT - 1}")
         return v
+
+
+@app.post("/randomplay")
+async def random_play():
+    try:
+        Game.random_play()
+        time.sleep(1)
+        return {"board": json_board(Game.board)}
+    except Exception as e:
+        # return {"error": str(e)}
+        pass
 
 
 @app.post("/play")
