@@ -58,7 +58,7 @@ def minimax(
             new_move = minimax(new_board, depth - 1, Player.BLUE)
             new_score = new_move.score
             # if the new score is greater than the current value, set the value to the new score
-            if new_score >= value:
+            if new_score > value:
                 value = new_score
                 actual_column = col
         return Move(actual_column, value)
@@ -78,7 +78,7 @@ def minimax(
             new_board[first_available_row][col] = Player.BLUE
             new_move = minimax(new_board, depth - 1, Player.RED)
             new_score = new_move.score
-            if new_score <= value:
+            if new_score < value:
                 value = new_score
                 actual_column = col
         return Move(actual_column, value)

@@ -28,7 +28,7 @@ BOTTOM = TOP + BOARD_HEIGHT
 PIECE_SIZE_X = 74
 PIECE_SIZE_Y = 73
 RELATIVE_START_X = 36
-RELATIVE_START_Y = 35
+RELATIVE_START_Y = 20
 
 EMPTY = None
 RED = Player.RED
@@ -63,6 +63,7 @@ class View(QWidget):
             self.algorithm_combobox.currentText(),
             self.difficulty_combobox.currentText(),
         )
+        self.close()
 
 
 class GameUtils:
@@ -104,8 +105,8 @@ class GameUtils:
         cordArr = []
         for i in range(0, COLUMN_COUNT):
             for j in range(0, ROW_COUNT):
-                x = startCord[0] + i * PIECE_SIZE_X
-                y = startCord[1] + j * PIECE_SIZE_Y
+                x = startCord[1] + i * PIECE_SIZE_X
+                y = startCord[0] + j * PIECE_SIZE_Y
                 cordArr.append((x, y))
         return cordArr
 
@@ -151,8 +152,8 @@ class GameUtils:
 
     def select_column(self, column):
         pyautogui.click(
-            self._get_grid_cordinates()[column][0] + LEFT,
-            self._get_grid_cordinates()[column][1] + TOP,
+            self._get_grid_cordinates()[column][1] + LEFT,
+            self._get_grid_cordinates()[column][0] + TOP,
         )
 
 
@@ -186,19 +187,21 @@ class Game:
         if self.game_over:
             raise Exception("Game is over")
         if self.algorithm == "minimax":
-            move = minimax(self.utils.board, self.difficulty, self.turn)
+            move = minimax(self.utils.board, self.difficulty, Player.RED)
         else:
             move = alpha_beta_pruning(
                 self.utils.board,
                 self.difficulty,
                 -math.inf,
                 math.inf,
-                self.turn
+                Player.RED,
             )
         if move.column is not None:
-            self.place_piece(move.column)
-            if not self.check_winner():
-                self.switch_turn()
+            print("AI move:", move.column)
+            return move
+        else:
+            print("WTF???")
+            return None
 
     def play(self, column: int):
         if self.game_over:
@@ -248,12 +251,12 @@ class Game:
             self.utils.print_grid(game_board)
 
             # YOUR CODE GOES HERE
-            self.next_move()
+            move = self.next_move()
 
-            # Insert here the action you want to perform based on the output of the algorithm
-            # You can use the following function to select a column
-            random_column = random.randint(0, COLUMN_COUNT - 1)
-            self.utils.select_column(random_column)
+            if move is not None:
+                self.utils.select_column(move.column)
+            else:
+                self.game_over = True
 
             time.sleep(2)
 

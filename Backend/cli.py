@@ -1,5 +1,4 @@
 import math
-
 from engine.alpha_beta_pruning import alpha_beta_pruning
 from engine.minimax import minimax
 from engine.rules import is_game_over
@@ -46,7 +45,12 @@ def computer_move(board, flag):
     if not flag:
         move = minimax(board, difficulty, turn)
     else:
-        move = alpha_beta_pruning(board, difficulty, -math.inf, math.inf, turn)
+        move = alpha_beta_pruning(
+            board,
+            difficulty,
+            -math.inf,
+            math.inf,
+            turn)
 
     column = move.column
 
