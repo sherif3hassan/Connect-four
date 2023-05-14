@@ -27,8 +27,8 @@ BOTTOM = TOP + BOARD_HEIGHT
 
 PIECE_SIZE_X = 74
 PIECE_SIZE_Y = 73
-RELATIVE_START_X = 0
-RELATIVE_START_Y = 0
+RELATIVE_START_X = 36
+RELATIVE_START_Y = 35
 
 EMPTY = None
 RED = Player.RED
@@ -85,12 +85,13 @@ class GameUtils:
                     print("R", end=" ")
                 elif grid[i][j] == BLUE:
                     print("B", end=" ")
-            print("\n")
+            print()
+        print()
 
     def _convert_grid_to_color(self, grid):
         for i in range(0, len(grid)):
             for j in range(0, len(grid[i])):
-                if grid[i][j] == (255, 255, 255):
+                if grid[i][j][0] > 250:
                     grid[i][j] = EMPTY
                 elif grid[i][j][0] > 200:
                     grid[i][j] = RED
