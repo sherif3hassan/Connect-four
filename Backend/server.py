@@ -166,16 +166,6 @@ async def switch_algorithm(body: AlgorithmBody):
     return {"algorithm": Game.algorithm}
 
 
-class PlayBody(BaseModel):
-    column: int
-
-    @validator("column")
-    def column_must_be_in_range(cls, v):
-        if v < 0 or v > COLUMN_COUNT - 1:
-            raise ValueError(f"Must be in range 0 to {COLUMN_COUNT - 1}")
-        return v
-
-
 @app.post("/randomplay")
 async def random_play():
     try:
@@ -185,6 +175,16 @@ async def random_play():
     except Exception as e:
         # return {"error": str(e)}
         pass
+
+
+class PlayBody(BaseModel):
+    column: int
+
+    @validator("column")
+    def column_must_be_in_range(cls, v):
+        if v < 0 or v > COLUMN_COUNT - 1:
+            raise ValueError(f"Must be in range 0 to {COLUMN_COUNT - 1}")
+        return v
 
 
 @app.post("/play")

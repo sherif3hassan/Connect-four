@@ -10,8 +10,12 @@
     align-items: center;
     padding: 2rem;
     border-radius: 1rem;
-    border: 0.2rem solid #fafafa;
+    /* border: 0.1rem solid #fafafa; */
     background-color: #333;
+}
+
+.setting-container > h2 {
+    font-weight: 900;
 }
 
 .algoSelect,
