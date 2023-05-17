@@ -8,7 +8,6 @@ import math
 import pyautogui
 from PIL import ImageGrab
 import time
-import random
 
 
 ALGORITHMS_GUI = ["Minimax", "Alpha-Beta Pruning"]
