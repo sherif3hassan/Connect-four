@@ -24,8 +24,8 @@ TOP = 202
 RIGHT = LEFT + BOARD_WIDTH
 BOTTOM = TOP + BOARD_HEIGHT
 
-PIECE_SIZE_X = 74
-PIECE_SIZE_Y = 73
+OFFSET_X = 73
+OFFSET_Y = 73
 RELATIVE_START_X = 36
 RELATIVE_START_Y = 20
 
@@ -76,83 +76,45 @@ class GameUtils:
             [None, None, None, None, None, None, None],
         ]
 
-    def print_grid(self, grid):
-        for i in range(0, len(grid)):
-            for j in range(0, len(grid[i])):
-                if grid[i][j] == EMPTY:
-                    print("*", end=" ")
-                elif grid[i][j] == RED:
-                    print("R", end=" ")
-                elif grid[i][j] == BLUE:
-                    print("B", end=" ")
-            print()
-        print()
-
-    def _convert_grid_to_color(self, grid):
-        for i in range(0, len(grid)):
-            for j in range(0, len(grid[i])):
-                if grid[i][j][0] > 250:
-                    grid[i][j] = EMPTY
-                elif grid[i][j][0] > 200:
-                    grid[i][j] = RED
-                elif grid[i][j][0] > 50:
-                    grid[i][j] = BLUE
-        return grid
-
-    def _get_grid_cordinates(self):
-        startCord = (RELATIVE_START_X, RELATIVE_START_Y)
-        cordArr = []
-        for i in range(0, COLUMN_COUNT):
-            for j in range(0, ROW_COUNT):
-                x = startCord[1] + i * PIECE_SIZE_X
-                y = startCord[0] + j * PIECE_SIZE_Y
-                cordArr.append((x, y))
-        return cordArr
-
-    def _transpose_grid(self, grid):
-        return [[grid[j][i] for j in range(len(grid))] for i in range(len(grid[0]))]
-
-    def _capture_image(self):
-        image = ImageGrab.grab()
-        cropedImage = image.crop((LEFT, TOP, RIGHT, BOTTOM))
-        return cropedImage
-
-    def _convert_image_to_grid(self, image):
-        pixels = [[] for i in range(7)]
-        i = 0
-        for index, cord in enumerate(self._get_grid_cordinates()):
-            pixel = image.getpixel(cord)
-            if index % 6 == 0 and index != 0:
-                i += 1
-            pixels[i].append(pixel)
-        return pixels
-
-    def _get_grid(self):
-        cropedImage = self._capture_image()
-        pixels = self._convert_image_to_grid(cropedImage)
-        # cropedImage.show()
-        # exit()
-        grid = self._transpose_grid(pixels)
-        return grid
-
-    def _check_if_game_end(self, grid):
-        for i in range(0, len(grid)):
-            for j in range(0, len(grid[i])):
-                if grid[i][j] == EMPTY and self.board[i][j] != EMPTY:
-                    return True
-        return False
+    def print_board(self):
+        print("Board:")
+        for row in self.board:
+            # if red R else if blue B else if empty *
+            print(
+                "".join(
+                    [
+                        "R" if cell == Player.RED else "B" if cell == Player.BLUE else "*"
+                        for cell in row
+                    ]
+                )
+            )
+        print("")
 
     def get_game_grid(self):
-        game_grid = self._get_grid()
-        new_grid = self._convert_grid_to_color(game_grid)
-        is_game_end = self._check_if_game_end(new_grid)
-        self.board = new_grid
-        return (self.board, is_game_end)
+        # Read board from screen
+        img = ImageGrab.grab().crop((LEFT, TOP, RIGHT, BOTTOM))
+        for row in range(ROW_COUNT):
+            for col in range(COLUMN_COUNT):
+                # Get pixel color
+                pixel_color = img.getpixel(
+                    (RELATIVE_START_X + col * OFFSET_X,
+                     RELATIVE_START_Y + row * OFFSET_Y)
+                )
+                # Check if pixel is empty
+                if pixel_color[0] > 200 and pixel_color[1] > 200 and pixel_color[2] > 200:
+                    self.board[row][col] = EMPTY
+                # Check if pixel is red
+                elif pixel_color[0] > 200:
+                    self.board[row][col] = RED
+                # Check if pixel is blue
+                elif pixel_color[2] > 200:
+                    self.board[row][col] = BLUE
 
     def select_column(self, column):
+        # Click on column
         pyautogui.click(
-            self._get_grid_cordinates()[column][1] + LEFT,
-            self._get_grid_cordinates()[column][0] + TOP,
+            LEFT + RELATIVE_START_X + column * OFFSET_X,
+            TOP + RELATIVE_START_Y
         )
 
 
@@ -199,7 +161,7 @@ class Game:
             print("AI move:", move.column)
             return move
         else:
-            print("WTF???")
+            print("Game is over")
             return None
 
     def play(self, column: int):
@@ -224,10 +186,6 @@ class Game:
         self.game_over = False
         self.winner = None
 
-    def read_board(self):
-        # use pyautogui to read the board
-        board, is_game_end = self.utils.get_game_grid()
-
     def start_game(self, algorithm, difficulty):
         if algorithm == "Minimax":
             self.algorithm = "minimax"
@@ -235,19 +193,18 @@ class Game:
             self.algorithm = "alpha-beta"
 
         if difficulty == "Easy":
-            self.difficulty = 1
+            self.difficulty = 2
         elif difficulty == "Medium":
-            self.difficulty = 3
-        else:
             self.difficulty = 5
+        else:
+            self.difficulty = 7
 
         self.reset()
 
         while not self.game_over:
-            (game_board, game_end) = self.utils.get_game_grid()
+            self.utils.get_game_grid()
 
-            # FOR DEBUG PURPOSES
-            self.utils.print_grid(game_board)
+            self.utils.print_board()
 
             # YOUR CODE GOES HERE
             move = self.next_move()
@@ -257,7 +214,7 @@ class Game:
             else:
                 self.game_over = True
 
-            time.sleep(2)
+            time.sleep(5)
 
 
 def main():
