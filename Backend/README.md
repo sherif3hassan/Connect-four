@@ -4,9 +4,9 @@
 
 ### Requirements
 
-Python 3.10
+Python 3.7
 
-### Setting up a virtual environment
+### Setting up a virtual environment on Linux ONLY
 
 For the imports to work, a `PYTHONPATH` environment variable must be present and contain the path to the root directory of the project.
 
